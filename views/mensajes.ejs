@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Mensajes</title>
+    <script src="/socket.io/socket.io.js"></script> <!-- Cliente de socket.io -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            background-color: #0077cc;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #0077cc;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ffc107;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Mensajes</h1>
+        <table id="tabla-mensajes">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>De</th>
+                    <th>Mensaje</th>
+                    <th>Relacionado</th>
+                    <th>Respuesta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% mensajes.forEach(msg => { %>
+                    <tr>
+                        <td><%= msg.fecha %></td>
+                        <td><%= msg.de %></td>
+                        <td><%= msg.mensaje %></td>
+                        <td class="<%= msg.relacionado ? 'success' : 'warning' %>">
+                            <%= msg.relacionado ? 'Sí' : 'No' %>
+                        </td>
+                        <td><%= msg.respuesta %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const socket = io();
+
+        // Escuchar evento de nuevo mensaje
+        socket.on('nuevoMensaje', (msg) => {
+            const tabla = document.getElementById('tabla-mensajes').getElementsByTagName('tbody')[0];
+            const nuevaFila = tabla.insertRow();
+
+            nuevaFila.innerHTML = `
+                <td>${msg.fecha}</td>
+                <td>${msg.de}</td>
+                <td>${msg.mensaje}</td>
+                <td class="${msg.relacionado ? 'success' : 'warning'}">
+                    ${msg.relacionado ? 'Sí' : 'No'}
+                </td>
+                <td>${msg.tipo === 'enviado' ? 'Respuesta automática' : 'No relacionado'}</td>
+            `;
+        });
+    </script>
+</body>
+</html>
