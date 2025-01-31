@@ -1,1 +1,25 @@
-<img src="/qrs/codeQR.png" alt="codigo QR para whatsapp web">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Escanea el QR</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <h1>Escanea el QR para iniciar sesión en WhatsApp</h1>
+    <div id="qr"></div>
+    
+    <script>
+        const socket = io();
+        
+        // Recibir QR y mostrarlo en pantalla
+        socket.on('qrCode', (qr) => {
+            document.getElementById('qr').innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${qr}&size=200x200" />`;
+        });
+
+        // Mostrar estado de autenticación
+        socket.on('authState', (state) => {
+            console.log("Estado de autenticación:", state);
+        });
+    </script>
+</body>
+</html>

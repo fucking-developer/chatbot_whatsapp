@@ -36,11 +36,28 @@ app.use(cors());
 // Conexión de socket.io
 io.on('connection', (socket) => {
     console.log('Cliente conectado');
+
+    // Escuchar evento de QR desde conex_swp
+    cwsp.onQR((qrCode) => {
+        console.log('QR Code recibido:', qrCode);
+        socket.emit('qrCode', qrCode); // Emitir el QR al cliente conectado
+    });
+
+    // Escuchar evento de estado de autenticación
+    cwsp.onAuthStateChange((state) => {
+        console.log('Estado de autenticación:', state);
+        socket.emit('authState', state); // Emitir el estado al cliente
+    });
 });
 
 // Escuchar nuevos mensajes desde el cliente de WhatsApp
 cwsp.onNewMessage((mensaje) => {
     io.emit('nuevoMensaje', mensaje); // Emitir evento de nuevo mensaje a todos los clientes
+});
+
+// Ruta para mostrar la vista del QR
+app.get('/qr', (req, res) => {
+    res.render('viewqr');
 });
 
 // Ruta para mostrar mensajes iniciales
@@ -64,6 +81,7 @@ app.get('/mensajes', (req, res) => {
     res.render('mensajes', { mensajes });
 });
 
+// Iniciar el servidor
 server.listen(port, () => {
     console.log(`Servidor iniciado en http://localhost:${port}`);
 });

@@ -1,3 +1,2 @@
-2025/01/30-19:29:07.613 5d24 Reusing MANIFEST C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Service Worker\Database/MANIFEST-000001
-2025/01/30-19:29:07.614 5d24 Recovering log #3
-2025/01/30-19:29:07.614 5d24 Reusing old log C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Service Worker\Database/000003.log 
+2025/01/30-21:18:13.157 6ea0 Creating DB C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Service Worker\Database since it was missing.
+2025/01/30-21:18:13.163 6ea0 Reusing MANIFEST C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Service Worker\Database/MANIFEST-000001

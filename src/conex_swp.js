@@ -45,10 +45,13 @@ const conex = async () => {
     client.on('qr', qr => {
         qrcode.generate(qr, { small: true }); // Mostrar el QR en la terminal
         console.log("Escanea el código QR para iniciar sesión.");
+        messageEmitter.emit('qrCode', qr); // Emitir el QR
     });
+    
 
     client.on('ready', () => {
-        console.log("El cliente está listo para recibir mensajes.");
+        console.log("✅ El cliente está listo para recibir mensajes.");
+        messageEmitter.emit('authState', 'authenticated');
     });
 
     client.on('message', async (msg) => {
@@ -67,7 +70,8 @@ const conex = async () => {
     });
 
     client.on('disconnected', (reason) => {
-        console.log("El cliente se ha desconectado:", reason);
+        console.log("❌ El cliente se ha desconectado:", reason);
+        messageEmitter.emit('authState', 'disconnected');
     });
 
     await client.initialize();
@@ -75,15 +79,15 @@ const conex = async () => {
 
 // Procesar los mensajes recibidos
 const procesarMensaje = async (cel, mensaje) => {
-    console.log('De:', cel);
-    console.log('Mensaje:', mensaje);
+    console.log('📩 De:', cel);
+    console.log('📩 Mensaje:', mensaje);
 
     try {
         const mensajeLower = mensaje.toLowerCase();
 
         // Verificar si el mensaje contiene palabras clave relacionadas con ropa
         if (palabrasClave.some(palabra => mensajeLower.includes(palabra))) {
-            console.log("Mensaje relacionado con ropa detectado.");
+            console.log("✅ Mensaje relacionado con ropa detectado.");
 
             const respuesta = `😊 ¡Hola! Aquí tienes la información de nuestra tiendita:
             📍 ${ubicacion}
@@ -104,16 +108,18 @@ const procesarMensaje = async (cel, mensaje) => {
 
             await client.sendMessage(cel, respuesta); // Enviar el mensaje al usuario
         } else {
-            console.log("Mensaje no relacionado con ropa. No se enviará respuesta.");
+            console.log("🚫 Mensaje no relacionado con ropa. No se enviará respuesta.");
         }
     } catch (error) {
-        console.error("Error al procesar el mensaje:", error);
+        console.error("❌ Error al procesar el mensaje:", error);
     }
 };
 
-// Exportar la funcionalidad
+// Exportar la funcionalidad con eventos para el QR y autenticación
 module.exports = {
     conex, // Inicializar la conexión del cliente
     mensajes, // Lista de mensajes registrados
-    onNewMessage: (callback) => messageEmitter.on('newMessage', callback) // Escuchar nuevos mensajes
+    onNewMessage: (callback) => messageEmitter.on('newMessage', callback), // Escuchar nuevos mensajes
+    onQR: (callback) => messageEmitter.on('qrCode', callback), // Emitir QR al cliente web
+    onAuthStateChange: (callback) => messageEmitter.on('authState', callback) // Emitir cambios de autenticación
 };

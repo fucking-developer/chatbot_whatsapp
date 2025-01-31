@@ -1,3 +1,2 @@
-2025/01/30-19:29:07.604 5d24 Reusing MANIFEST C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2025/01/30-19:29:07.606 5d24 Recovering log #3
-2025/01/30-19:29:07.606 5d24 Reusing old log C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Local Storage\leveldb/000003.log 
+2025/01/30-21:18:11.062 5e18 Creating DB C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Local Storage\leveldb since it was missing.
+2025/01/30-21:18:11.083 5e18 Reusing MANIFEST C:\Users\jonny\Documents\Node\proyecto_wsp\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
