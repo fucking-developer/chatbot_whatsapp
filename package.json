@@ -1,21 +1,19 @@
 {
   "name": "project_wsp",
   "version": "1.0.0",
-  "description": "",
+  "description": "Chatbot de WhatsApp con WebSockets",
   "main": "api.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node api.js",
+    "dev": "nodemon api.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "project_wsp": "file:",
+    "puppeteer": "^21.0.0",
     "qrcode": "^1.5.3",
     "qrcode-terminal": "^0.12.0",
     "socket.io": "^4.8.1",
